@@ -31,7 +31,7 @@ abstract class BaseViewModel<Event: ViewEvent, UiState: ViewState, Effect: ViewS
     protected val viewModelScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     abstract fun setInitialState(): UiState
-    abstract fun handleEvents(event: Event)
+    abstract suspend fun handleEvents(event: Event)
 
     private val initialState: UiState by lazy { setInitialState() }
 

@@ -1,15 +1,18 @@
 package com.project.sportify.di
 
-import PreferencesDataSource
 import android.content.Context
-import com.project.sportify.data.remote.IRemoteDataSource
-import com.project.sportify.data.remote.RemoteDataSource
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.project.sportify.data.local.ILocalDataSource
 import com.project.sportify.data.local.LocalDataSource
+import com.project.sportify.data.remote.IRemoteDataSource
+import com.project.sportify.data.remote.RemoteDataSource
 import com.project.sportify.data.sharedprefrences.IPreferencesDataSource
-import com.project.sportify.firebase.FireBaseInterface
+import com.project.sportify.data.sharedprefrences.PreferencesDataSource
 import com.project.sportify.utils.connection_utils.ConnectionUtils
 import com.project.sportify.utils.connection_utils.IConnectionUtils
 import dagger.Module
@@ -17,39 +20,39 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal class AppModule {
+object FirebaseModule {
 
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFireStore(): FirebaseFirestore {
+        return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseDatabase(): FirebaseDatabase {
+        return FirebaseDatabase.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseStorage(): FirebaseStorage {
+        return FirebaseStorage.getInstance()
+    }
     @Provides
     @Singleton
     fun provideGson(): Gson {
         return GsonBuilder().serializeNulls().create()
-    }
-
-    @Provides
-    @Singleton
-    fun provideConnectivity(@ApplicationContext context: Context): IConnectionUtils {
-        return ConnectionUtils(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideLocalDataSource(): ILocalDataSource {
-        return LocalDataSource()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRemoteDataSource(
-        firebaseInterface: FireBaseInterface,
-    ): IRemoteDataSource {
-        return RemoteDataSource(firebaseInterface)
     }
 
     @Provides
@@ -60,26 +63,24 @@ internal class AppModule {
     ): IPreferencesDataSource {
         return PreferencesDataSource(context, gson)
     }
-
     @Provides
-    @IoDispatcher
-    fun provideDispatcher(
-    ): CoroutineDispatcher {
-        return Dispatchers.IO
+    @Singleton
+    fun provideConnectivity(@ApplicationContext context: Context): IConnectionUtils {
+        return ConnectionUtils(context)  // Ensure `ConnectionUtils` implements `IConnectionUtils`
     }
-
     @Provides
-    @MainDispatcher
-    fun provideMainDispatcher(
-    ): CoroutineDispatcher {
-        return Dispatchers.Main
+    @Singleton
+    fun provideRemoteDataSource(
+        firebaseAuth: FirebaseAuth,
+        firebaseFireStore: FirebaseFirestore,
+        firebaseDatabase: FirebaseDatabase,
+        firebaseStorage: FirebaseStorage
+    ): IRemoteDataSource {
+        return RemoteDataSource(firebaseAuth, firebaseFireStore, firebaseDatabase, firebaseStorage)
+    }
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(): ILocalDataSource {
+        return LocalDataSource()
     }
 }
-
-@Retention(AnnotationRetention.BINARY)
-@Qualifier
-annotation class IoDispatcher
-
-@Retention(AnnotationRetention.BINARY)
-@Qualifier
-annotation class MainDispatcher

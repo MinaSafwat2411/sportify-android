@@ -3,6 +3,7 @@ package com.project.sportify.ui.main
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -63,6 +64,14 @@ fun AppNavHost(
                 ShouldShowNavigationBottomBar(NavigationScreen.Splash.route)
                 SplashScreenDestination(navController = navController)
             }
+            composable(NavigationScreen.OnBoarding.route) {
+                ShouldShowNavigationBottomBar(NavigationScreen.OnBoarding.route)
+                Text("OnBoarding")
+            }
+            composable(NavigationScreen.ChooseWay.route){
+                ShouldShowNavigationBottomBar(NavigationScreen.ChooseWay.route)
+                Text("ChooseWay")
+            }
         }
     }
 }
@@ -73,6 +82,8 @@ private fun ShouldShowNavigationBottomBar(route: String) {
     val activity = LocalContext.current as MainActivity
     when (route) {
         NavigationScreen.Splash.route,
+        NavigationScreen.OnBoarding.route,
+        NavigationScreen.ChooseWay.route
             -> activity.hideBottomNavigation()
 
         else -> activity.showBottomNavigation()
@@ -80,12 +91,21 @@ private fun ShouldShowNavigationBottomBar(route: String) {
 }
 
 enum class Screen {
-    SPLASH,HOME
+    SPLASH,HOME,ON_BOARDING,LOGIN,REGISTER,FORGOT_PASSWORD,PROFILE,EDIT_PROFILE,CHANGE_PASSWORD,
+    CHOOSE_WAY
 }
 
 sealed class NavigationScreen(val route: String) {
     data object Splash : NavigationScreen(Screen.SPLASH.name)
     data object Home : NavigationScreen(Screen.HOME.name)
+    data object OnBoarding : NavigationScreen(Screen.ON_BOARDING.name)
+    data object Login : NavigationScreen(Screen.LOGIN.name)
+    data object Register : NavigationScreen(Screen.REGISTER.name)
+    data object ForgotPassword : NavigationScreen(Screen.FORGOT_PASSWORD.name)
+    data object Profile : NavigationScreen(Screen.PROFILE.name)
+    data object EditProfile : NavigationScreen(Screen.EDIT_PROFILE.name)
+    data object ChangePassword : NavigationScreen(Screen.CHANGE_PASSWORD.name)
+    data object ChooseWay : NavigationScreen(Screen.CHOOSE_WAY.name)
 
     sealed class BottomNavItem(val route: String, @DrawableRes val icon: Int) {
         data object Home : BottomNavItem(NavigationScreen.Home.route, R.drawable.ic_home)
