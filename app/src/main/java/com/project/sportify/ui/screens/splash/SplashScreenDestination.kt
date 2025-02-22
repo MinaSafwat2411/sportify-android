@@ -10,7 +10,6 @@ import com.project.sportify.ui.screens.splash.contract.SplashContract
 
 @Composable
 fun SplashScreenDestination(
-    modifier: Modifier = Modifier,
     viewModel: SplashViewModel = hiltViewModel(),
     navController: NavHostController
 ){
@@ -21,10 +20,17 @@ fun SplashScreenDestination(
         onNavigationRequested = {navigationEffect ->
             when(navigationEffect){
                 is SplashContract.Effect.Navigation.OnBoarding -> {
-                    navController.navigate(NavigationScreen.OnBoarding.route)
+                    navController.navigate(NavigationScreen.OnBoarding.route){
+                        popUpTo(NavigationScreen.Splash.route){
+                            inclusive = true
+                        }
+                    }
                 }
                 is SplashContract.Effect.Navigation.ChooseWay->{
                     navController.navigate(NavigationScreen.ChooseWay.route)
+                }
+                is SplashContract.Effect.Navigation.Login->{
+                    navController.navigate(NavigationScreen.Login.route)
                 }
             }
         }

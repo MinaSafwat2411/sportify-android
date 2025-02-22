@@ -17,6 +17,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.project.sportify.R
+import com.project.sportify.ui.screens.onboarding.OnBoardingDestination
 import com.project.sportify.ui.screens.splash.SplashScreenDestination
 
 
@@ -66,7 +67,7 @@ fun AppNavHost(
             }
             composable(NavigationScreen.OnBoarding.route) {
                 ShouldShowNavigationBottomBar(NavigationScreen.OnBoarding.route)
-                Text("OnBoarding")
+                OnBoardingDestination(navController = navController)
             }
             composable(NavigationScreen.ChooseWay.route){
                 ShouldShowNavigationBottomBar(NavigationScreen.ChooseWay.route)

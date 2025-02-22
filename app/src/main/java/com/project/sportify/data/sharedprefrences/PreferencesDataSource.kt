@@ -16,5 +16,17 @@ class PreferencesDataSource @Inject constructor(
         return sharedPreferences.getBoolean(Constants.SharedPreference.IS_OPENED, false)
     }
 
+    override fun isDarkMode(): Boolean {
+        return sharedPreferences.getBoolean(Constants.SharedPreference.IS_DARK_MODE, false)
+    }
+
+    override fun isOpened(): Boolean {
+        return sharedPreferences.getBoolean(Constants.SharedPreference.IS_OPENED, false)
+    }
+
+    override fun open() {
+        sharedPreferences.edit().putBoolean(Constants.SharedPreference.IS_OPENED, true).apply()
+    }
+
 }
 

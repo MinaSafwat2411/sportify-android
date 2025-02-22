@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.project.sportify.R
 import com.project.sportify.ui.screens.splash.contract.SplashContract
+import com.project.sportify.ui.theme.Mirage
 import com.project.sportify.ui.theme.White
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -29,12 +30,14 @@ fun SplashScreen(
             when (effect) {
                 is SplashContract.Effect.Navigation.OnBoarding -> onNavigationRequested(effect)
                 is SplashContract.Effect.Navigation.ChooseWay -> onNavigationRequested(effect)
+                is SplashContract.Effect.Navigation.Login -> onNavigationRequested(effect)
             }
         }?.collect()
     }
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(if (state.isDarkMode) Mirage else White),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

@@ -5,6 +5,7 @@ object Constants {
     object SharedPreference {
         const val SHARED_PREF_NAME = "my_shared_pref"
         const val IS_OPENED = "IS_OPENED"
+        const val IS_DARK_MODE = "IS_DARK_MODE"
     }
 
     object General {

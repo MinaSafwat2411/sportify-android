@@ -13,10 +13,17 @@ class SplashViewModel @Inject constructor(
 ) : BaseViewModel<SplashContract.Event, SplashContract.State, SplashContract.Effect>() {
 
     init {
+        setState {
+            copy(
+                isDarkMode=useCase.isDarkMode()
+            )
+        }
         setEvent(event = SplashContract.Event.NavigateToNextScreen)
     }
 
-    override fun setInitialState() = SplashContract.State(isError = false)
+    override fun setInitialState() = SplashContract.State(
+        isError = false,
+    )
 
     override suspend fun handleEvents(event: SplashContract.Event) {
         when (event) {

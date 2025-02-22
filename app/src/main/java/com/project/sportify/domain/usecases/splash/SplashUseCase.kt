@@ -11,4 +11,12 @@ class SplashUseCase @Inject constructor(
     override fun shouldNavigateToWhichScreen(): Boolean {
         return  splashRepository.shouldNavigateToWhichScreen()
     }
+
+    override fun isDarkMode(): Boolean {
+        return splashRepository.isDarkMode()
+    }
+
+    fun isOpened(): Boolean {
+        return  splashRepository.isOpened()
+    }
 }
