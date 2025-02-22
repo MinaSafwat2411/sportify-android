@@ -5,8 +5,6 @@ import androidx.annotation.CallSuper
 import com.project.sportify.data.models.status.Status
 import com.project.sportify.data.models.status.StatusCode
 import com.project.sportify.ui.base.IBaseUseCase
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 
 
@@ -51,5 +49,9 @@ open class BaseUseCase(private val mBaseRepository: IBaseRepository) : IBaseUseC
             Status.ServerError(
                 error = status.error
             )
+    }
+
+    override fun isDarkMode(): Boolean {
+        return mBaseRepository.isDarkMode()
     }
 }

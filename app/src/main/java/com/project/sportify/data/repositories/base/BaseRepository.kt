@@ -17,4 +17,11 @@ abstract class BaseRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : IBaseRepository {
 
+    override fun isDarkMode(): Boolean {
+        return  mIPreferencesDataSource.isDarkMode()
+    }
+
+    override fun isOpened(): Boolean {
+        return mIPreferencesDataSource.isOpened()
+    }
 }

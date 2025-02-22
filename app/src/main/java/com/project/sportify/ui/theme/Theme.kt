@@ -53,6 +53,9 @@ fun SportifyTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content
+        content = content,
     )
 }
+
+val MaterialTheme.dimens: Dimens
+    get() = Dimens()
